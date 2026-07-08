@@ -1,0 +1,6 @@
+{
+  "name": "Tauheed Estate Agency",
+  "description": "Premium, modern, luxury real estate agency in Karachi, offering high-end buying, selling, and investment solutions with complete transparency.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

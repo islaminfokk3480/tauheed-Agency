@@ -1,11 +1,45 @@
-<div align="center">
+# Tauheed Estate Agency
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A luxurious, high-end real estate web application built with React, Vite, Tailwind CSS, and Framer Motion. Features a premium dark luxury visual design, search functionality, interactive mortgage calculator, property filtering, and beautiful virtual tour simulations.
 
-  <h1>Built with AI Studio</h2>
+## Deployment on Vercel
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+This project is fully configured for seamless, one-click deployment on [Vercel](https://vercel.com).
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### Easy Deployment Steps
 
-</div>
+1. **Push to GitHub / GitLab / Bitbucket**:
+   Ensure your code is pushed to a remote repository.
+
+2. **Import to Vercel**:
+   - Go to your Vercel Dashboard.
+   - Click **Add New** > **Project**.
+   - Import your repository.
+
+3. **Configure Project Settings**:
+   Vercel will automatically detect the **Vite** framework preset. Double-check the following defaults:
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build` (or `vite build`)
+   - **Output Directory**: `dist`
+
+4. **Deploy**:
+   Click **Deploy**. Your premium application will be live in seconds!
+
+### Included Configuration (`vercel.json`)
+
+To ensure client-side routing works beautifully when users refresh custom URLs or direct links, we've included a `/vercel.json` configuration file:
+
+```json
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+
+This guarantees all deep links properly route back to your React SPA's `index.html`.
