@@ -135,6 +135,9 @@ export default function App() {
   // Selected Property for details Modal
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
+  // Selected Blog Post for luxury reading modal
+  const [activeBlogPost, setActiveBlogPost] = useState<any | null>(null);
+
   useEffect(() => {
     localStorage.setItem('tauheed_favorites', JSON.stringify(favorites));
   }, [favorites]);
@@ -587,17 +590,24 @@ export default function App() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProperties.map((prop) => (
-                      <PropertyCard
+                    {filteredProperties.map((prop, idx) => (
+                      <motion.div
                         key={prop.id}
-                        property={prop}
-                        darkMode={darkMode}
-                        onQuickView={(p) => setSelectedProperty(p)}
-                        isFavorite={favorites.includes(prop.id)}
-                        onToggleFavorite={toggleFavorite}
-                        isComparing={!!compareList.find(c => c.id === prop.id)}
-                        onToggleCompare={toggleCompare}
-                      />
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
+                      >
+                        <PropertyCard
+                          property={prop}
+                          darkMode={darkMode}
+                          onQuickView={(p) => setSelectedProperty(p)}
+                          isFavorite={favorites.includes(prop.id)}
+                          onToggleFavorite={toggleFavorite}
+                          isComparing={!!compareList.find(c => c.id === prop.id)}
+                          onToggleCompare={toggleCompare}
+                        />
+                      </motion.div>
                     ))}
                   </div>
                 )}
@@ -628,9 +638,15 @@ export default function App() {
                     return (
                       <motion.div
                         key={idx}
-                        whileHover={{ y: -5 }}
-                        className={`p-6 rounded-2xl border flex flex-col justify-between ${
-                          darkMode ? 'bg-white/5 border-white/5' : 'bg-white border-black/5 shadow-sm'
+                        initial={{ opacity: 0, y: 25 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        whileHover={{ y: -8, scale: 1.02 }}
+                        className={`p-6 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
+                          darkMode
+                            ? 'bg-white/[0.02] border-white/5 hover:border-[#C8A951]/35 hover:bg-white/[0.04]'
+                            : 'bg-white border border-black/5 shadow-md hover:border-[#C8A951]/20'
                         }`}
                       >
                         <div className="w-10 h-10 rounded-lg bg-[#C8A951]/10 flex items-center justify-center text-[#C8A951] mb-4">
@@ -674,11 +690,18 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  {projects.map((proj) => (
-                    <div
+                  {projects.map((proj, idx) => (
+                    <motion.div
                       key={proj.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      transition={{ duration: 0.6, delay: idx * 0.08 }}
+                      whileHover={{ y: -8 }}
                       className={`rounded-2xl overflow-hidden border flex flex-col group transition-all duration-300 ${
-                        darkMode ? 'bg-[#0b0b0b] border-white/5 hover:border-[#C8A951]/30' : 'bg-white border-black/5 shadow-sm'
+                        darkMode
+                          ? 'bg-white/[0.02] border-white/5 hover:border-[#C8A951]/30 hover:shadow-[0_20px_40px_rgba(200,169,81,0.05)]'
+                          : 'bg-white border-black/5 shadow-md hover:border-[#C8A951]/20'
                       }`}
                     >
                       {/* Image */}
@@ -687,7 +710,7 @@ export default function App() {
                           src={proj.image}
                           alt={proj.title}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                         <div className="absolute top-4 left-4">
                           <span className="px-3 py-1 text-[9px] font-mono font-bold uppercase bg-black text-[#C8A951] border border-[#C8A951]/30 rounded">
@@ -721,7 +744,7 @@ export default function App() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -751,10 +774,17 @@ export default function App() {
                   ].map((svc, idx) => {
                     const IconComp = svc.icon;
                     return (
-                      <div
+                      <motion.div
                         key={idx}
-                        className={`p-6 rounded-2xl border flex flex-col justify-between ${
-                          darkMode ? 'bg-white/5 border-white/5' : 'bg-white border-black/5 shadow-sm'
+                        initial={{ opacity: 0, y: 25 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: 0.5, delay: idx * 0.08 }}
+                        whileHover={{ y: -6, scale: 1.01 }}
+                        className={`p-6 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
+                          darkMode
+                            ? 'bg-white/[0.02] border-white/5 hover:border-[#C8A951]/30 hover:bg-white/[0.04] hover:shadow-[0_20px_40px_rgba(200,169,81,0.04)]'
+                            : 'bg-white border-black/5 shadow-md hover:border-[#C8A951]/20 hover:shadow-black/5'
                         }`}
                       >
                         <div>
@@ -768,7 +798,7 @@ export default function App() {
                             {svc.desc}
                           </p>
                         </div>
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>
@@ -779,7 +809,13 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                   
                   {/* Left Story Content */}
-                  <div className="lg:col-span-6 space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, x: -40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.7 }}
+                    className="lg:col-span-6 space-y-6"
+                  >
                     <span className="text-[11px] font-mono font-bold text-[#C8A951] tracking-widest uppercase block">
                       OUR CORPORATE ANCESTRY
                     </span>
@@ -792,30 +828,36 @@ export default function App() {
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#C8A951]/20 transition-all duration-300">
                         <span className="text-xs font-bold text-[#C8A951] uppercase font-display block">Our Mission</span>
                         <p className="text-[10px] text-gray-500 mt-1 font-sans">To make property acquisitions transparent, fully verified, and stress-free for global Pakistanis.</p>
                       </div>
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#C8A951]/20 transition-all duration-300">
                         <span className="text-xs font-bold text-[#C8A951] uppercase font-display block">Our Vision</span>
                         <p className="text-[10px] text-gray-500 mt-1 font-sans">To be the trusted real estate advisory for high-net-worth investments in coastal Pakistan.</p>
                       </div>
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#C8A951]/20 transition-all duration-300">
                         <span className="text-xs font-bold text-[#C8A951] uppercase font-display block">Core Values</span>
                         <p className="text-[10px] text-gray-500 mt-1 font-sans">Corporate integrity, absolute legal scrutiny, client confidentiality, and direct seller-buyer transfers.</p>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Right Office Gallery */}
-                  <div className="lg:col-span-6">
+                  <motion.div
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.7 }}
+                    className="lg:col-span-6"
+                  >
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-4">
                         <img
                           src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80"
                           alt="Corporate Office Interior"
                           referrerPolicy="no-referrer"
-                          className="rounded-2xl aspect-[4/5] object-cover border border-[#C8A951]/20 shadow-xl"
+                          className="rounded-2xl aspect-[4/5] object-cover border border-[#C8A951]/20 shadow-xl hover:scale-102 transition-transform duration-500 cursor-pointer"
                         />
                       </div>
                       <div className="space-y-4 pt-8">
@@ -823,11 +865,11 @@ export default function App() {
                           src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=400&q=80"
                           alt="Consultation Room"
                           referrerPolicy="no-referrer"
-                          className="rounded-2xl aspect-[4/5] object-cover border border-[#C8A951]/20 shadow-xl"
+                          className="rounded-2xl aspect-[4/5] object-cover border border-[#C8A951]/20 shadow-xl hover:scale-102 transition-transform duration-500 cursor-pointer"
                         />
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                 </div>
               </section>
@@ -847,11 +889,16 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {agents.map((ag) => (
-                    <div
+                  {agents.map((ag, idx) => (
+                    <motion.div
                       key={ag.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      transition={{ duration: 0.6, delay: idx * 0.1 }}
+                      whileHover={{ y: -8 }}
                       className={`rounded-2xl overflow-hidden border relative flex flex-col group transition-all duration-300 ${
-                        darkMode ? 'bg-[#0a0a0a] border-white/5 hover:border-[#C8A951]/30' : 'bg-white border-black/5 shadow-sm'
+                        darkMode ? 'bg-white/[0.02] border-white/5 hover:border-[#C8A951]/30 hover:shadow-[0_20px_40px_rgba(200,169,81,0.04)]' : 'bg-white border border-black/5 shadow-md hover:border-[#C8A951]/20'
                       }`}
                     >
                       <div className="aspect-[4/5] overflow-hidden bg-slate-900 relative">
@@ -859,7 +906,7 @@ export default function App() {
                           src={ag.photo}
                           alt={ag.name}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
@@ -894,7 +941,7 @@ export default function App() {
                           <span>WhatsApp</span>
                         </a>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -917,11 +964,16 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {reviews.map((rev) => (
-                    <div
+                  {reviews.map((rev, idx) => (
+                    <motion.div
                       key={rev.id}
-                      className={`p-6 rounded-2xl border flex flex-col justify-between ${
-                        darkMode ? 'bg-[#0a0a0a] border-white/5 shadow-inner' : 'bg-white border-black/5 shadow-sm'
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      whileHover={{ y: -6, scale: 1.01 }}
+                      className={`p-6 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
+                        darkMode ? 'bg-white/[0.01] border-white/5 shadow-inner hover:border-[#C8A951]/20' : 'bg-white border border-black/5 shadow-md hover:border-[#C8A951]/20'
                       }`}
                     >
                       <div className="space-y-4">
@@ -947,7 +999,7 @@ export default function App() {
                           <span className="text-[10px] text-gray-500 font-mono">{rev.location} • {rev.date}</span>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -986,11 +1038,16 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {filteredBlogs.map((post) => (
-                    <div
+                  {filteredBlogs.map((post, idx) => (
+                    <motion.div
                       key={post.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      transition={{ duration: 0.6, delay: idx * 0.08 }}
+                      whileHover={{ y: -8 }}
                       className={`rounded-2xl overflow-hidden border flex flex-col group transition-all duration-300 ${
-                        darkMode ? 'bg-[#0a0a0a] border-white/5 hover:border-[#C8A951]/20' : 'bg-white border-black/5 shadow-sm'
+                        darkMode ? 'bg-white/[0.02] border-white/5 hover:border-[#C8A951]/20' : 'bg-white border border-black/5 shadow-md'
                       }`}
                     >
                       <div className="aspect-[16/10] overflow-hidden bg-slate-900 relative">
@@ -998,7 +1055,7 @@ export default function App() {
                           src={post.image}
                           alt={post.title}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                         <span className="absolute top-4 left-4 bg-black text-[#C8A951] border border-[#C8A951]/20 text-[9px] font-mono px-2 py-0.5 rounded font-bold uppercase tracking-wider">
                           {post.category}
@@ -1018,10 +1075,10 @@ export default function App() {
                           </p>
                         </div>
 
-                        {/* Expanded details simulated */}
+                        {/* Expanded details simulated using custom state modal */}
                         <div className="mt-5 pt-4 border-t border-gray-700/10 flex justify-end">
                           <button
-                            onClick={() => alert(`Full article Content:\n\n${post.content}`)}
+                            onClick={() => setActiveBlogPost(post)}
                             className="text-[10px] font-mono font-bold uppercase text-[#C8A951] hover:underline flex items-center space-x-1"
                           >
                             <span>Read Full Insight</span>
@@ -1029,7 +1086,7 @@ export default function App() {
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -1374,6 +1431,80 @@ export default function App() {
                   ))}
                 </div>
               )}
+            </motion.div>
+          </div>
+        )}
+
+        {/* Luxury Blog Article Reader Modal */}
+        {activeBlogPost && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveBlogPost(null)}
+              className="absolute inset-0 bg-black/85 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className={`relative w-full max-w-2xl max-h-[85vh] rounded-3xl overflow-y-auto border p-6 sm:p-8 z-10 scrollbar-none ${
+                darkMode ? 'bg-[#060606] border-white/10 text-white' : 'bg-white border-black/5 text-slate-900'
+              }`}
+            >
+              <button
+                onClick={() => setActiveBlogPost(null)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-white/5 border border-white/10 hover:border-[#C8A951] text-gray-400 hover:text-white transition-all z-20"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="space-y-6">
+                <div className="space-y-2 text-left">
+                  <span className="text-[10px] text-[#C8A951] font-mono font-bold tracking-widest uppercase block">
+                    {activeBlogPost.category} • {activeBlogPost.readTime}
+                  </span>
+                  <h2 className="font-display font-bold text-lg sm:text-xl uppercase tracking-tight leading-snug">
+                    {activeBlogPost.title}
+                  </h2>
+                  <span className="text-[10px] text-gray-500 font-sans block">Published on {activeBlogPost.date} by Tauheed Research Board</span>
+                </div>
+
+                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
+                  <img src={activeBlogPost.image} alt={activeBlogPost.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+                </div>
+
+                <p className="text-xs text-gray-400 font-sans leading-relaxed text-justify whitespace-pre-line border-t border-gray-700/10 pt-6">
+                  {activeBlogPost.content}
+                </p>
+
+                <div className="border-t border-gray-700/10 pt-6 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 rounded-full bg-[#C8A951]/10 flex items-center justify-center text-[#C8A951] font-display font-bold text-xs">
+                      TE
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[11px] font-bold font-display uppercase tracking-wide">Tauheed Estate Board</h4>
+                      <p className="text-[9px] text-gray-500">Corporate Intelligence Dept</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setActiveBlogPost(null);
+                      setActiveTab('contact');
+                      setTimeout(() => {
+                        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
+                    className="px-4 py-2 bg-[#C8A951] text-black text-[10px] font-bold uppercase rounded-lg tracking-widest hover:bg-white transition-all"
+                  >
+                    Discuss With Advisor
+                  </button>
+                </div>
+              </div>
             </motion.div>
           </div>
         )}
